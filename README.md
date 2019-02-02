@@ -1,6 +1,9 @@
 # backup_scripts
 A collection of backup scripts for various things. These scripts are fairly similar and all create encrypted backups (and eventually notify on success/failure via Pushbullet)
 
+## pre-requisites
+All backup_scripts use the `pb_notifier.sh` script as part of [my Pushbullet notifier library for Bash](https://github.com/toozej/pushbullet_notifier). You will need to download `pb_notifier.sh` into a path you have access to before using the backup_scripts. For example, `wget https://raw.githubusercontent.com/toozej/pushbullet_notifier/master/pb_notifier.sh ~/bin/pb_notifier.sh` will download the latest version to your `~/bin` directory. You will then just need to add your Pushbullet access token to `pb_notifier.sh` ACCESS_TOKEN variable and away you go.
+
 ## backup_simplenote
 ### About
 `backup_simplenote.sh` is a basic shell wrapper around the fantastic [simplenote-backup](https://github.com/hiroshi/simplenote-backup) library to create encrypted backups of your [Simplenote](https://www.simplenote.com) notes.
@@ -9,7 +12,7 @@ A collection of backup scripts for various things. These scripts are fairly simi
 1. ensure you have gpg installed on your workstation, and have a valid GPG keypair to use for encryption
 2. follow the installation instructions for [simplenote-backup](https://github.com/hiroshi/simplenote-backup)
 3. clone this repo or download `backup_simplenote.sh` to your home directory
-4. edit `backup_simplenote.sh` to 
+4. edit `backup_simplenote.sh` to
 	- insert your username (or edit the paths entirely to fit your environment)
 	- insert your Simplenote API token found in step 1
 5. run `./backup_simplenote.sh` manually to make sure the encrypted backups are created successfully
@@ -24,7 +27,7 @@ A collection of backup scripts for various things. These scripts are fairly simi
 ### Usage
 1. ensure you have gpg installed on your workstation, and have a valid GPG keypair to use for encryption
 2. clone this repo or download `backup_docker.sh` to your home directory
-3. edit `backup_docker.sh` to 
+3. edit `backup_docker.sh` to
 	- insert your username (or edit the paths entirely to fit your environment)
 	- insert your Pushbullet API token
 4. run `sudo ./backup_docker.sh` manually to make sure the encrypted backups are created successfully

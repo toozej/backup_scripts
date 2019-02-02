@@ -4,11 +4,13 @@
 _NOW=$(date +"%m_%d_%Y")
 
 # variables
-BACKUP_PATH=/home/<username>/Backups/docker
+USERNAME=my_unix_username_here
+EMAIL="me@example.com"
+BACKUP_PATH=/home/$USERNAME/Backups/docker
 FAILED=''
-ACCESS_TOKEN="<Pushbullet access token goes here>"
 
-for DIR in `find /home/<username>/docker/ -mindepth 1 -maxdepth 1 -type d`; do
+
+for DIR in `find /home/$USERNAME/docker/ -mindepth 1 -maxdepth 1 -type d`; do
 	echo "working on: ${DIR}"
 
 	# don't back up docker containers that have a .do_not_backup file
@@ -40,7 +42,7 @@ for DIR in `find /home/<username>/docker/ -mindepth 1 -maxdepth 1 -type d`; do
 	fi
 
 	# gpg encrypt the tgz
-	gpg --batch --yes --homedir /home/<username>/.gnupg --trust-model always --output ${BACKUP_PATH}/${TAR_FILE_NAME}.gpg --encrypt --recipient "<username>@example.com" ${TAR_FILE_NAME}
+	gpg --batch --yes --homedir /home/$USERNAME/.gnupg --trust-model always --output ${BACKUP_PATH}/${TAR_FILE_NAME}.gpg --encrypt --recipient ${EMAIL} ${TAR_FILE_NAME}
 	if [ $? -eq 0 ]; then
 		echo "encrypting ${DIR} docker backup on ${_NOW} completed successfully, removing unencrypted tar file"
 		shred ${TAR_FILE_NAME} && rm -f ${TAR_FILE_NAME}
@@ -63,11 +65,10 @@ else
 	STATUS="Successful"
 fi
 
-curl --header 'Access-Token: '"${ACCESS_TOKEN}"'' \
-	--header 'Content-Type: application/json' \
-	--data-binary '{"body":"'"${BODY}"'","email":"<username>@example.com","title":"Docker Backup '${STATUS}' on '$(hostname)'","type":"note"}' \
-	--request POST \
-	https://api.pushbullet.com/v2/pushes > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-	echo "Pushbullet notification failed. Here is what it would have said: ${STATUS} ${BODY}"
-fi
+TITLE="Docker Backup '${STATUS}' on '$(hostname)'"
+
+# uses https://github.com/toozej/pushbullet_notifier/blob/master/pb_notifier.sh
+# for notifying of success/failure via Pushbullet
+# make sure to download the pb_notifier.sh script somewhere you can run it,
+# and insert your Pushbullet access token in the variable ACCESS_TOKEN
+source /home/$USERNAME/path/to/pb_notifier.sh ${EMAIL} ${TITLE} ${BODY}
