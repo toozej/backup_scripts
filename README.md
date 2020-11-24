@@ -2,7 +2,7 @@
 A collection of backup scripts for various things. These scripts are fairly similar and all create encrypted backups (and eventually notify on success/failure via Pushbullet)
 
 ## pre-requisites
-All backup_scripts use the `pb_notifier.sh` script as part of [my Pushbullet notifier library for Bash](https://github.com/toozej/pushbullet_notifier). You will need to download `pb_notifier.sh` into a path you have access to before using the backup_scripts. For example, `wget https://raw.githubusercontent.com/toozej/pushbullet_notifier/master/pb_notifier.sh ~/bin/pb_notifier.sh` will download the latest version to your `~/bin` directory. You will then just need to add your Pushbullet access token to `pb_notifier.sh` ACCESS_TOKEN variable and away you go.
+Most backup_scripts use the `pb_notifier.sh` script as part of [my Pushbullet notifier library for Bash](https://github.com/toozej/pushbullet_notifier). You will need to download `pb_notifier.sh` into a path you have access to before using the backup_scripts. For example, `wget https://raw.githubusercontent.com/toozej/pushbullet_notifier/master/pb_notifier.sh ~/bin/pb_notifier.sh` will download the latest version to your `~/bin` directory. You will then just need to add your Pushbullet access token to `pb_notifier.sh` ACCESS_TOKEN variable and away you go.
 
 ## backup_simplenote
 ### About
@@ -40,3 +40,16 @@ All backup_scripts use the `pb_notifier.sh` script as part of [my Pushbullet not
 Coming soon...
 
 ### Usage
+
+
+## rclone
+### About
+Scripts to run Docker-ized [rclone utility](https://rclone.org/) to ship encrypted backups off-site. Currently configured to ship to Google Drive, but can be modified to use any supported [rclone provider](https://rclone.org/#providers). 
+
+### Usage
+1. ensure you have Docker installed on your workstation
+2. clone this repo or download `rclone` directory to your home directory
+3. edit `rclone/config/rclone.conf` to add your Google Drive token and root_folder_id
+4. edit `rclone/backup_via_rclone.sh` to set correct ${USERNAME} or path to `rclone` directory and files
+5. copy or symlink files or directories into the `rclone/backups/` directory to be backed up
+6. copy or call `rclone/backup_via_rclone.sh` into cron to schedule shipping encrypted backups to Google Drive
