@@ -34,6 +34,21 @@ All backup_scripts use the `pb_notifier.sh` script as part of [my Pushbullet not
 5. consider adding a crontab entry for `backup_docker.sh` to automatically create backups on a schedule
 	- example crontab entry for weekly backups: `@weekly /home/<username>/cron/backup_docker.sh >> /home/<username>/cron/logs/backup_docker.log 2>&1 /dev/null`
 
+## backup_1password
+### About
+`backup_1password.sh` is a shell script to create export 1Password entries and either export them to a csv file or store them in a `pass` vault, which itself uses GPG as an encrypted password manager. The `pass` vault is stored at `/home/<username>/Backups/passwords/`.
+
+### Usage
+1. ensure you have `op` 1Password CLI and `pass` Password Manager installed
+2. clone this repo or download `backup_1password.sh` to your home directory
+3. edit `backup_1password.sh` to
+	- insert your username (or edit the paths entirely to fit your environment)
+	- insert your Pushbullet API token
+4. login to `op`
+5. run `./backup_1password.sh` manually to make sure the backup is created successfully
+6. consider adding a crontab entry for `backup_1password.sh` to automatically create backups on a schedule
+	- example crontab entry for weekly backups: `@weekly /home/<username>/cron/backup_1password.sh >> /home/<username>/cron/logs/backup_1password.log 2>&1 /dev/null`
+
 
 ## backup_vm
 ### About
