@@ -70,8 +70,7 @@ function set_defaults {
     DEBUG=false
     USERNAME=my_unix_username_here
     EMAIL="me@example.com"
-    BACKUP_PATH=/home/$USERNAME/Backups/passwords
-    PASSWORD_STORE_DIR=${BACKUP_PATH}
+    BACKUP_PATH=passwords_${_NOW}
     FAILED=''
 }
 
@@ -139,7 +138,7 @@ elif [[ $CSV == "true" && $PASS == "false" && $DEBUG == "true" ]]; then
     done
     echo "completed backing up to csv file"
 elif [[ $CSV == "false" && $PASS == "true" && $DEBUG == "false" ]]; then
-    pass init ${EMAIL} && pass git init
+    pass init -p ${BACKUP_PATH} ${EMAIL} && pass git init
     if [ $? -ne 0 ]; then
         FAILED="${FAILED} creating backup password store failed on ${_NOW}\n"
         exit 1
@@ -152,7 +151,7 @@ elif [[ $CSV == "false" && $PASS == "true" && $DEBUG == "false" ]]; then
     done
 elif [[ $CSV == "false" && $PASS == "true" && $DEBUG == "true" ]]; then
     echo "initializing pass store"
-    pass init ${EMAIL} && pass git init
+    pass init -p ${BACKUP_PATH} ${EMAIL} && pass git init ${BACKUP_PATH}
     if [ $? -ne 0 ]; then
         FAILED="${FAILED} creating backup password store failed on ${_NOW}\n"
         exit 1
