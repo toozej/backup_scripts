@@ -22,7 +22,7 @@ for DIR in `find /home/$USERNAME/docker/ -mindepth 1 -maxdepth 1 -type d`; do
 	TAR_FILE_NAME="$(basename ${DIR})_${_NOW}.tgz"
 
 	# shutdown running docker container
-	/usr/local/bin/docker-compose -f ${DIR}/docker-compose.yml down
+	/usr/bin/docker compose -f ${DIR}/docker-compose.yml down
 	if [ $? -ne 0 ]; then
 		FAILED="${FAILED} shutting down ${DIR} docker container failed on ${_NOW}\n"
 		# skip to next ${DIR}
@@ -36,7 +36,7 @@ for DIR in `find /home/$USERNAME/docker/ -mindepth 1 -maxdepth 1 -type d`; do
 	fi
 
 	# start docker container
-	/usr/local/bin/docker-compose -f ${DIR}/docker-compose.yml up -d
+	/usr/bin/docker compose -f ${DIR}/docker-compose.yml up -d
 	if [ $? -ne 0 ]; then
 		FAILED="${FAILED} starting ${DIR} docker container failed on ${_NOW}\n"
 	fi
